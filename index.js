@@ -1,14 +1,24 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const myDb = require('./lib/db');
+const {} = require('./lib/data');
+const consoleTable = require('console.table');
 
+connection.connect(function (err) {
+  if (err) throw err;
+  initialAction();
+})
+
+// Give the user a welcome message.
+console.table(
+  "\n------------ EMPLOYEE TRACKER ------------\n"
+)
 
 
 const questions = [
   {
     type: 'list',
     name: 'select',
-    message: 'What would ypu like to do?',
+    message: 'What would you like to do?',
     choices: [
       "View All Employees",
       "Add Employee",
