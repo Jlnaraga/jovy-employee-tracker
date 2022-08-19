@@ -1,172 +1,130 @@
 const inquirer = require('inquirer');
 const {
-  Department,
-  Employee,
-  Role,
-} = require ("./lib/class")
+    Department,
+    Employee,
+    Role
+} = require('./lib/entities')
+const {
+    getAllDepartment,
+    getAllEmployees,
+    getAllRoles
+} = require('./lib/queries');
+const {
+    createDepartment,
+    createEmployee,
+    createRole,
+    updateEmployeeRole
+} = require('./lib/mutations');
+
 
 const {
-  getAllDepartment, 
-  getAllEmployees,
-  getAllRoles
-} = require ("./lib/queries")
+    addDepartmentInquirer,
+    addEmployeeInquirer,
+    addRoleInquirer,
+    updateEmployeeRoleInquirer,
+    mainInquirer
+} = require('./inquirers');
 
-const {
-  createDepartment,
-  createEmployees,
-  createRole,
-  updateEmployeeRole
-} = require ("./lib/mutation")
 
-const {
-  
+const viewAllEmployees = async () => {
+    const employees = await getAllEmployees();
+    console.table(employees);
+    main(); // return to main
 }
 
-const questions = [
-  {
-    type: 'list',
-    name: 'select',
-    message: 'What would you like to do?',
-    choices: [
-      "View All Employees",
-      "Add Employee",
-      "Update Employee Role",
-      "View All Roles",
-      "Add Role",
-      "View All Department",
-      "Add Department",
-      "Quit"
-    ]
-  },
-  {
-    type: 'input',
-    name: 'department',
-    message: 'What is the name of the Department?',
-    when: (answers) => answers.select === 'Add Department'
-  },
-  {
-    type: 'input',
-    name: 'role',
-    message: 'What is the name of the role?',
-    when: (answers) => answers.select === ' Add Role'
-  },
-  {
-    type: 'input',
-    name: 'salary',
-    message: 'What is the salary of the role?',
-    when: (answers) => answers.select === 'Add Role'
-  },
-  {
-    type: 'list',
-    name: 'select',
-    message: 'Which department does the role belong to?',
-    choices: () => [
-      "Engineering",
-      "Finance",
-      "Legal",
-      "Sales",
-      "Service"
-    ],
-    when: (answers) => answers.select === 'Add Role'
-  },
-  {
-    type: 'input',
-    name: 'name',
-    message: 'What is the employee first name?',
-    when: (answers) => answers.select === 'Add Employee'
-  },
-  {
-    type: 'input',
-    name: 'name',
-    message: 'What is the employee last name?',
-    when: (answers) => answers.select === 'Add Employee'
-  },
-  {
-    type: 'input',
-    name: 'role',
-    message: 'What is the employee role?',
-    choices: () => [
-      "Sales Lead",
-      "Salesperson",
-      "Lead Engineer",
-      "Software Engineer",
-      "Account Manager",
-      "Accountant",
-      "Legal Team lead",
-      "Lawyer",
-      "Customer Service"
-    ],
-    when: (answers) => answers.select === 'Add Employee'
-  },
-  {
-    type: 'list',
-    name: 'select',
-    message: 'Who is the employee manager?',
-    choices: () => [
-      "None",
-      "John Doe",
-      "Mike Chan",
-      "Ashley Rodriguez",
-      "Kevin Tupik",
-      "Kunal Singh",
-      "Malia Brown",
-      "Sarah Lourd",
-      "Tom Allen"
-    ],
-    when: (answers) => answers.select === 'Add Role'
-  },
-  {
-    type: 'list',
-    name: 'select',
-    message: 'Which employee role do you want to update?',
-    choices: () => [
-      "None",
-      "John Doe",
-      "Mike Chan",
-      "Ashley Rodriguez",
-      "Kevin Tupik",
-      "Kunal Singh",
-      "Malia Brown",
-      "Sarah Lourd",
-      "Tom Allen"
-    ],
-    when: (answers) => answers.select === 'Update Employee Role'
-  },
-  {
-    type: 'list',
-    name: 'select',
-    message: 'Which role do you want to assign the selected employee?',
-    choices: () => [
-      "Sales Lead",
-      "Salesperson",
-      "Lead Engineer",
-      "Software Engineer",
-      "Account Manager",
-      "Accountant",
-      "Legal Team lead",
-      "Lawyer",
-      "Customer Service"
-    ],
-    when: (answers) => answers.select === 'Add Update Role'
-  },
-  {
-    type: 'confirm',
-    name: 'select',
-    message: 'Do you want to quit?',
-    when: (answers) => answers.select === 'Quit'
-  },
-];
 
-function init () {
-
-  return inquirer.prompt (questions).then ((answers) => {
-    if (answers.isFinished === false) {
-    }
-    else{
-      return init();
-    }
-  })
-  
+const addEmployee = () => {
+    inquirer.prompt(addEmployeeInquirer).then(async (answers) => {
+        const { first_name, last_name, role_id, manager_id } = answers;
+        const employee = new Employee();
+        employee.first_name = first_name;
+        employee.last_name = last_name;
+        employee.role_id = role_id;
+        employee.manager_id = manager_id;
+        await createEmployee(employee);
+        main(); // return to main
+    });
 }
 
-init();
+
+const updateEmployee = () => {
+    inquirer.prompt(updateEmployeeRoleInquirer).then(async (answers) => {
+        const { employee_id, role_id } = answers;
+        const employee = new Employee();
+        employee.id = employee_id;
+        employee.role_id = role_id;
+        await updateEmployeeRole(employee);
+        main(); // return to main
+    });
+}
+
+
+const viewAllRoles = async () => {
+    const roles = await getAllRoles();
+    console.table(roles);
+    main(); // return to main
+}
+
+
+const addRole = () => {
+    inquirer.prompt(addRoleInquirer).then(async (answers) => {
+        const { title, salary, department_id } = answers;
+        
+        const role = new Role()
+        role.title = title;
+        role.salary = salary;
+        role.department_id = department_id;
+        await createRole(role);
+        main(); // return to main
+    });
+}
+
+
+const viewAllDepartment = async () => {
+    const department = await getAllDepartment();
+    console.table(department);
+    main(); // return to main
+}
+
+
+const addDepartment = () => {
+    inquirer.prompt(addDepartmentInquirer).then(async (answers) => {
+        const { name } = answers;
+        const department = new Department(
+            id = undefined,
+            name
+        );
+        await createDepartment(department);
+        main(); // return to main
+    });
+}
+
+
+const main = () => {
+    inquirer.prompt(mainInquirer).then((answers) => {
+        const { selection } = answers;
+        if(selection === "View All Employees"){
+            viewAllEmployees();
+        }
+        if(selection === "Add Employee"){
+            addEmployee();
+        }
+        if(selection === "Update Employee Role"){
+            updateEmployee();
+        }
+        if(selection === "View All Roles"){
+            viewAllRoles();
+        }
+        if(selection === "Add Role"){
+            addRole();
+        }
+        if(selection === "View All Departments"){
+            viewAllDepartment();
+        } 
+        if(selection === "Add Department"){
+            addDepartment();
+        }
+    });
+}
+
+main();
