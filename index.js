@@ -1,18 +1,26 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
-const {} = require('./lib/data');
-const consoleTable = require('console.table');
+const {
+  Department,
+  Employee,
+  Role,
+} = require ("./lib/class")
 
-connection.connect(function (err) {
-  if (err) throw err;
-  initialAction();
-})
+const {
+  getAllDepartment, 
+  getAllEmployees,
+  getAllRoles
+} = require ("./lib/queries")
 
-// Give the user a welcome message.
-console.table(
-  "\n------------ EMPLOYEE TRACKER ------------\n"
-)
+const {
+  createDepartment,
+  createEmployees,
+  createRole,
+  updateEmployeeRole
+} = require ("./lib/mutation")
 
+const {
+  
+}
 
 const questions = [
   {
