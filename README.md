@@ -1,27 +1,21 @@
 # jovy-employee-tracker
 
+[GitHub Link](https://github.com/Jlnaraga/jovy-employee-tracker.git)
 
-### Bonus
+[Demo](https://drive.google.com/file/d/157oOiT5Z45eD6Hw8P6elQJG7nE94PdAI/view?usp=sharing)
 
-Fulfilling any of the following can add up to 20 points to your grade. Note that the highest grade you can achieve is still 100:
 
-* Application allows users to update employee managers (2 points).
+## Description
+ This is an application that lets a user keep track of their employees, departments, and roles using a mysql database
 
-* Application allows users to view employees by manager (2 points).
 
-* Application allows users to view employees by department (2 points).
+## usage
+npm start
 
-* Application allows users to delete departments, roles, and employees (2 points for each).
+## About me
+[My GitHub](https://github.com/Jlnaraga)
+[E-mail](ira_bonching@yahoo.com)
+by Jovy Ira Naraga
 
-* Application allows users to view the total utilized budget of a department&mdash;in other words, the combined salaries of all employees in that department (8 points).
 
-## Review
 
-You are required to submit BOTH of the following for review:
-
-* A walkthrough video demonstrating the functionality of the application.
-
-* The URL of the GitHub repository, with a unique name and a README describing the project.
-
-- - -
-© 2022 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
